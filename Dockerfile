@@ -16,11 +16,37 @@ RUN apt-get update && apt-get install -y \
   libdbus-1-3 \
   libfontconfig1 \
   xvfb \
+  libavcodec-dev \
+  libavformat-dev \
+  libswscale-dev \
+  libxkbcommon-x11-0 \
+  mesa-utils \
+  x11-apps \
+  tmux \
   && rm -rf /var/lib/apt/lists/*
 
-RUN wget http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_5_0_Linux.tar.gz
-RUN tar -xf V-REP_PRO_EDU_V3_5_0_Linux.tar.gz
-RUN apt-get remove -y wget
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc && \
+    find /opt/conda/ -follow -type f -name '*.a' -delete && \
+    find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
+    /opt/conda/bin/conda install -y python=3.6.8 && \
+    /opt/conda/bin/conda install -y matplotlib scipy numpy && \
+    /opt/conda/bin/conda install -y -c conda-forge opencv ipdb && \
+    /opt/conda/bin/conda install -y -c pytorch pytorch torchvision && \
+    /opt/conda/bin/conda clean -afy
+
+# RUN wget http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_6_0_Linux.tar.gz
+# RUN tar -xf V-REP_PRO_EDU_V3_6_0_Linux.tar.gz
+# RUN apt-get remove -y wget
 
 RUN echo 'export QT_DEBUG_PLUGINS=1' >> ~/.bashrc
-RUN echo 'export PATH=/V-REP_PRO_EDU_V3_5_0_Linux/:$PATH' >> ~/.bashrc
+# RUN echo 'export PATH=/V-REP_PRO_EDU_V3_5_0_Linux/:$PATH' >> ~/.bashrc
+
+CMD [ "/bin/bash" ]
+
+

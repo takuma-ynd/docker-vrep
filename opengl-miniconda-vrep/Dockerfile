@@ -24,12 +24,18 @@ RUN apt-get update && apt-get install -y \
   qt5-default \
   && rm -rf /var/lib/apt/lists/*
 
-RUN wget http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_4_0_Linux.tar.gz
-RUN tar -xf V-REP_PRO_EDU_V3_4_0_Linux.tar.gz
+RUN wget https://www.coppeliarobotics.com/files/V-REP_PRO_EDU_V3_6_2_Ubuntu16_04.tar.xz
+# RUN wget https://www.coppeliarobotics.com/files/CoppeliaSim_Edu_V4_0_0_Ubuntu16_04.tar.xz
+# RUN wget http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_4_0_Linux.tar.gz
+# RUN tar xf CoppeliaSim_Edu_V4_0_0_Ubuntu16_04.tar.xz
+RUN tar xf V-REP_PRO_EDU_V3_6_2_Ubuntu16_04.tar.xz
+# RUN tar -xf V-REP_PRO_EDU_V3_4_0_Linux.tar.gz
 RUN apt-get remove -y wget
 
 RUN echo 'export QT_DEBUG_PLUGINS=1' >> ~/.bashrc
-RUN echo 'export PATH=/V-REP_PRO_EDU_V3_4_0_Linux/:$PATH' >> ~/.bashrc
+# RUN echo 'export PATH=/V-REP_PRO_EDU_V3_4_0_Linux/:$PATH' >> ~/.bashrc
+# RUN echo 'export PATH=/CoppeliaSim_Edu_V4_0_0_Ubuntu16_04/:$PATH' >> ~/.bashrc
+RUN echo 'export PATH=/V-REP_PRO_EDU_V3_6_2_Ubuntu16_04/:$PATH' >> ~/.bashrc
 
 # miniconda3
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/debian/Dockerfile
